@@ -1,3 +1,7 @@
+// Kyoungduk (Eric) Park
+// William Zhang
+// April 2019
+
 #include "Camera.h"
 #include <FL/gl.h>
 #include <FL/glu.h>
@@ -9,7 +13,7 @@
 Camera::Camera()
 {
     std::cout << "[Camera] Constructor called" << std::endl;
-	reset();
+    reset();
 }
 
 Camera::~Camera()
@@ -19,13 +23,13 @@ Camera::~Camera()
 
 void Camera::reset()
 {
-	orientLookAt(glm::vec3(0.0f, 0.0f, DEFAULT_FOCUS_LENGTH), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	setViewAngle(VIEW_ANGLE);
-	setNearPlane(NEAR_PLANE);
-	setFarPlane(FAR_PLANE);
-	screenWidth = screenHeight = 200;
-	screenWidthRatio = 1.0f;
-	rotU = rotV = rotW = 0;
+    orientLookAt(glm::vec3(0.0f, 0.0f, DEFAULT_FOCUS_LENGTH), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    setViewAngle(VIEW_ANGLE);
+    setNearPlane(NEAR_PLANE);
+    setFarPlane(FAR_PLANE);
+    screenWidth = screenHeight = 200;
+    screenWidthRatio = 1.0f;
+    rotU = rotV = rotW = 0;
     rotateU(0.0);
     rotateV(0.0);
     rotateW(0.0);
@@ -35,18 +39,14 @@ void Camera::reset()
 //the reason for computing the diff is to make sure that we are only incrementally rotating the camera
 void Camera::setRotUVW(float u, float v, float w)
 {
-	/*float diffU = u - rotU;
-	float diffV = v - rotV;
-	float diffW = w - rotW;*/
-	rotateU(u);
-	rotateV(v);
-	rotateW(w);
+    rotateU(u);
+    rotateV(v);
+    rotateW(w);
     setModelViewMatrix();
-	rotU = u;
-	rotV = v;
-	rotW = w;
+    rotU = u;
+    rotV = v;
+    rotW = w;
 }
-
 
 void Camera::orientLookAt(glm::vec3 eyePoint, glm::vec3 lookatPoint, glm::vec3 upVec)
 {
@@ -85,7 +85,7 @@ void Camera::orientLookVec(glm::vec3 eyePoint, glm::vec3 lookVec, glm::vec3 upVe
 
 void Camera::setScalingMatrix()
 {
-	float aspectRatio = (float)screenHeight / (float)screenWidth;
+    float aspectRatio = (float)screenHeight / (float)screenWidth;
     float theta_w = glm::radians((float)viewAngle);
     float theta_h = theta_w * aspectRatio;
 
@@ -114,7 +114,6 @@ void Camera::setUnhingeMatrix()
     glm::vec4 col3 = glm::vec4(0.0, 0.0, c / (c + 1.0), 0.0);
 
     unhingeMat4 = glm::mat4(col0, col1, col2, col3);
-    //unhingeMat4 = 30.0f * unhingeMat4; // scaling
 
     setProjectionMatrix();
 }
@@ -126,12 +125,12 @@ void Camera::setProjectionMatrix()
 
 glm::mat4 Camera::getScalingMatrix()
 {
-	return scaleMat4;
+    return scaleMat4;
 }
 
 glm::mat4 Camera::getInvScalingMat()
 {
-	return glm::inverse(scaleMat4);
+    return glm::inverse(scaleMat4);
 }
 
 glm::mat4 Camera::getUnhingeMatrix()
@@ -207,7 +206,7 @@ glm::mat4 Camera::getInvTranslationMat()
 
 glm::mat4 Camera::getModelViewMatrix()
 {
-	return modelViewMat4;
+    return modelViewMat4;
 }
 
 glm::mat4 Camera::getInvModelViewMat()
@@ -291,42 +290,42 @@ void Camera::rotate(glm::vec3 point, glm::vec3 axis, float degrees)
 
 glm::vec3 Camera::getEyePoint()
 {
-	return eyeVec3;
+    return eyeVec3;
 }
 
 glm::vec3 Camera::getLookVector()
 {
-	return lookVec3;
+    return lookVec3;
 }
 
 glm::vec3 Camera::getUpVector()
 {
-	return upVec3;
+    return upVec3;
 }
 
 float Camera::getViewAngle()
 {
-	return viewAngle;
+    return viewAngle;
 }
 
 float Camera::getNearPlane()
 {
-	return nearPlane;
+    return nearPlane;
 }
 
 float Camera::getFarPlane()
 {
-	return farPlane;
+    return farPlane;
 }
 
 int Camera::getScreenWidth()
 {
-	return screenWidth;
+    return screenWidth;
 }
 
 int Camera::getScreenHeight()
 {
-	return screenHeight;
+    return screenHeight;
 }
 
 float Camera::getFilmPlanDepth()
@@ -336,5 +335,5 @@ float Camera::getFilmPlanDepth()
 
 float Camera::getScreenWidthRatio()
 {
-	return (float)screenWidth / (float)screenHeight;
+    return (float)screenWidth / (float)screenHeight;
 }

@@ -1,3 +1,7 @@
+// Kyoungduk (Eric) Park
+// William Zhang
+// April 2019
+
 #ifndef CONE_H
 #define CONE_H
 
@@ -12,7 +16,7 @@ public:
     {
         std::cout << "[Cone] Constructor called" << std::endl;
     };
-    	
+
     ~Cone()
     {
         std::cout << "[Cone] Destructor called" << std::endl;
@@ -20,14 +24,12 @@ public:
 
     OBJ_TYPE getType()
     {
-    	return SHAPE_CONE;
+        return SHAPE_CONE;
     };
 
-    SceneColor mapTexture(glm::vec3 eye, glm::vec3 ray, double t_, 
-        FlatSceneNode* node)
-    {   
-        std::cout << "in cone maptexture" << std::endl;
-
+    SceneColor mapTexture(glm::vec3 eye, glm::vec3 ray, double t_,
+                          FlatSceneNode * node)
+    {
         glm::mat4 invTransformMat = glm::inverse(node->getTransformMat());
         eye = glm::vec3(invTransformMat * glm::vec4(eye, 1.0));
         ray = glm::vec3(invTransformMat * glm::vec4(ray, 0.0));
@@ -71,7 +73,7 @@ public:
         glm::vec3 rayObject = glm::vec3(invTransformMat * glm::vec4(rayWorld, 0.0));
 
         glm::vec3 pointObject = eyePointObject + ((float)t * rayObject);
-        
+
         if (IN_RANGE(pointObject[Y], -0.5))
         {
             return glm::vec3(0.0, -1.0, 0.0);
@@ -101,7 +103,7 @@ public:
         double b = (2.0 * eyePointObject[X] * rayObject[X]) + (2.0 * eyePointObject[Z] * rayObject[Z]) + (2.0 * k * k * yk * rayObject[Y]);
         double c = (eyePointObject[X] * eyePointObject[X]) + (eyePointObject[Z] * eyePointObject[Z]) - (k * k * yk * yk);
         double discriminant = (b * b) - (4.0 * a * c);
-        
+
         // Discriminant Check & Bound Check for Ray-Body Intersect
         double t_body;
 
@@ -116,8 +118,8 @@ public:
         else
         {
             double t1 = (-b + glm::sqrt(discriminant)) / (2.0 * a);
-            double t2 = (-b - glm::sqrt(discriminant)) / (2.0 * a);   
-            double y, t_alt;      
+            double t2 = (-b - glm::sqrt(discriminant)) / (2.0 * a);
+            double y, t_alt;
 
             t_body = fmin(t1, t2);
             t_alt = fmax(t1, t2);
@@ -147,7 +149,7 @@ public:
         if ((t_body > 0.0 || IN_RANGE(t_body, 0.0)) && (t_cap > 0.0 || IN_RANGE(t_cap, 0.0)))
         {
             return t_body < t_cap ? t_body : t_cap;
-        } 
+        }
         else if (t_body > 0.0 || IN_RANGE(t_body, 0.0))
         {
             return t_body;
