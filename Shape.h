@@ -20,6 +20,12 @@ const float RADIUS = 0.5f;
 const double DNE = -1.0; // Does Not Exist (DNE)
 const double BOUND = 0.5;
 
+enum axis {
+    X = 0,
+    Y,
+    Z
+};
+
 class Shape
 {
 
