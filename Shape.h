@@ -13,7 +13,7 @@
 const float EPSILON = 1e-5;
 #define PI glm::pi<float>()  //PI is now a constant for 3.14159....
 #define IN_RANGE(a,b) (((a>(b-EPSILON))&&(a<(b+EPSILON)))?1:0)
- 
+
 // Bound, offset, range, limit, ...
 const float OFFSET = 0.5f;
 const float RADIUS = 0.5f;
@@ -27,7 +27,7 @@ public:
 
 	Shape()
 	{
-		
+
 	};
 
 	~Shape() {};

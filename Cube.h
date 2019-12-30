@@ -7,25 +7,25 @@ class Cube : public Shape
 {
 
 public:
-	
-	Cube() 
-	{
-		std::cout << "[Cube] Constructor called" << std::endl;
-	};
-		
-	~Cube()
-	{
-    	std::cout << "[Cube] Destructor called" << std::endl;
-	};
-		
-	OBJ_TYPE getType()
-	{
-		return SHAPE_CUBE;
-	};
 
-    SceneColor mapTexture(glm::vec3 eye, glm::vec3 ray, double t_, 
+    Cube()
+    {
+        std::cerr << "[Cube] Constructor called" << std::endl;
+    };
+
+    ~Cube()
+    {
+        std::cerr << "[Cube] Destructor called" << std::endl;
+    };
+
+    OBJ_TYPE getType()
+    {
+        return SHAPE_CUBE;
+    };
+
+    SceneColor mapTexture(glm::vec3 eye, glm::vec3 ray, double t_,
         FlatSceneNode* node)
-    {   
+    {
         std::cout << "in cube maptexture" << std::endl;
 
         glm::mat4 invTransformMat = glm::inverse(node->getTransformMat());
@@ -60,7 +60,7 @@ public:
             s = (int)(node->textureWidth * node->repeatU * (-point[0] + 0.5)) % node->textureWidth;
             t = (int)(node->textureHeight * node->repeatV * (-point[1] + 0.5)) % node->textureHeight;
         } else {
-            std::cerr << "cube mapTexture no side" << std::endl; 
+            std::cerr << "cube mapTexture no side" << std::endl;
             std::cerr << node->getPrimitive()->type << std::endl;
 
             SceneColor l;
@@ -75,7 +75,7 @@ public:
         return texture;
     };
 
-	glm::vec3 intersect_normal(glm::vec3 eyePointWorld, glm::vec3 rayWorld, glm::mat4 transformMat, double t)
+    glm::vec3 intersect_normal(glm::vec3 eyePointWorld, glm::vec3 rayWorld, glm::mat4 transformMat, double t)
     {
         glm::mat4 invTransformMat = glm::inverse(transformMat);
         glm::vec3 eyePointObject = glm::vec3(invTransformMat * glm::vec4(eyePointWorld, 1.0));
@@ -118,7 +118,7 @@ public:
         }
     };
 
-	double intersect(glm::vec3 eyePointWorld, glm::vec3 rayWorld, glm::mat4 transformMat)
+    double intersect(glm::vec3 eyePointWorld, glm::vec3 rayWorld, glm::mat4 transformMat)
     {
         glm::mat4 invTransformMat = glm::inverse(transformMat);
         glm::vec3 eyePointObject = glm::vec3(invTransformMat * glm::vec4(eyePointWorld, 1.0));
@@ -179,7 +179,7 @@ public:
         				t_min = _t < t_min ? _t: t_min;
         			}
         		}
-        	} 
+        	}
         }
 
         return t_min;
