@@ -1,13 +1,13 @@
-/*!
-   Kyoungduk Park
-   William Zhang
-*/
+// Project : Recursive Ray Tracer
+// File    : FlatSceneTree.h
+// Authors : Kyoungduk (Eric) Park
+//           William Zhang
 
 #ifndef FLAT_SCENE_TREE_H
 #define FLAT_SCENE_TREE_H
 
-#include "scene/SceneData.h"
-#include "scene/SceneParser.h"
+#include "./scene/SceneData.h"
+// #include "./scene/SceneParser.h"
 
 #include <stdlib.h>
 #include <iostream>
@@ -20,9 +20,9 @@ using namespace std;
 
 class FlatSceneNode
 {
-    
+
 public:
-    
+
     FlatSceneNode();
     ~FlatSceneNode();
     void setPrimitive(ScenePrimitive* _primitive);
@@ -42,7 +42,6 @@ private:
     ScenePrimitive* primitive;
     glm::mat4 transformMat;
     bool empty;
-
 };
 
 class FlatSceneTree
@@ -66,4 +65,3 @@ private:
 };
 
 #endif
-

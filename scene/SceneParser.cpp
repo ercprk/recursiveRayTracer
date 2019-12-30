@@ -16,7 +16,7 @@
 
 using namespace std;
 
-SceneParser::SceneParser(const std::string& name) 
+SceneParser::SceneParser(const std::string& name)
 {
    file_name = name;
 
@@ -27,7 +27,7 @@ SceneParser::SceneParser(const std::string& name)
    m_nodes.clear();
 }
 
-SceneParser::~SceneParser() 
+SceneParser::~SceneParser()
 {
    std::vector<SceneLightData*>::iterator lights;
    for (lights = m_lights.begin(); lights != m_lights.end(); lights++) {
@@ -35,7 +35,7 @@ SceneParser::~SceneParser()
    }
 
    /* Delete all Scene Nodes */
-    for (unsigned int node = 0; node < m_nodes.size(); node++) {           
+    for (unsigned int node = 0; node < m_nodes.size(); node++) {
         for (size_t i = 0; i < (m_nodes[node])->transformations.size(); i++) {
             delete (m_nodes[node])->transformations[i];
         }
@@ -52,16 +52,16 @@ SceneParser::~SceneParser()
 
    m_nodes.clear();
    m_lights.clear();
-   m_objects.clear(); 
+   m_objects.clear();
 }
 
-bool SceneParser :: getGlobalData(SceneGlobalData& data) 
+bool SceneParser :: getGlobalData(SceneGlobalData& data)
 {
    data = m_globalData;
    return true;
 }
 
-bool SceneParser :: getCameraData(SceneCameraData& data) 
+bool SceneParser :: getCameraData(SceneCameraData& data)
 {
    data = m_cameraData;
    return true;
@@ -72,7 +72,7 @@ int SceneParser :: getNumLights()
    return m_lights.size();
 }
 
-bool SceneParser :: getLightData(int i, SceneLightData& data) 
+bool SceneParser :: getLightData(int i, SceneLightData& data)
 {
    if (i < 0 || (unsigned int)i >= m_lights.size())
    {
@@ -83,7 +83,7 @@ bool SceneParser :: getLightData(int i, SceneLightData& data)
    return true;
 }
 
-SceneNode* SceneParser :: getRootNode() 
+SceneNode* SceneParser :: getRootNode()
 {
    map<std::string, SceneNode*>::iterator node = m_objects.find("root");
    if (node == m_objects.end())
@@ -92,7 +92,7 @@ SceneNode* SceneParser :: getRootNode()
 }
 
 /* this is where it all goes down... */
-bool SceneParser::parse() 
+bool SceneParser::parse()
 {
    TiXmlDocument doc(file_name.c_str());
    bool loaded = doc.LoadFile();
@@ -138,7 +138,7 @@ bool SceneParser::parse()
       {
          const string& elem = scene_elem->ValueStr();
 
-         if (!elem.compare("globaldata")) 
+         if (!elem.compare("globaldata"))
          {
             if (!parseGlobalData(scene_elem))
                return false;
@@ -179,7 +179,7 @@ bool SceneParser::parse()
 
 }
 
-/** Helper function to parse a triple 
+/** Helper function to parse a triple
 */
 bool parseTriple(const TiXmlElement* triple, float& x, float& y, float& z)
 {
@@ -204,12 +204,12 @@ bool parseTriple(const TiXmlElement* triple, float& x, float& y, float& z)
 
 bool parseMatrix(const TiXmlElement* e, double matrix[16]) {
    const TiXmlElement* r = e->FirstChildElement();
-   
+
    for (int row = 0; row < 4; row++) {
       if (!r)
          goto end;
       const TiXmlAttribute* a = r->FirstAttribute();
-      
+
       for (int col = 0; col < 4; col++) {
          if (!a)
             goto end;
@@ -294,18 +294,18 @@ bool parseMap(const TiXmlElement* e, SceneFileMap* map)
  * be the GlobalData element.
  *
  */
-bool SceneParser::parseGlobalData(const TiXmlElement* scenefile) 
+bool SceneParser::parseGlobalData(const TiXmlElement* scenefile)
 {
 
    const TiXmlElement* globaldata = scenefile->FirstChildElement();
 
-   if (!globaldata) 
+   if (!globaldata)
    {
       printf("Could not parse global data.\n");
       return false;
    }
 
-   while (globaldata) 
+   while (globaldata)
    {
       const string& elem = globaldata->ValueStr();
       if (!elem.compare( "diffusecoeff"))
@@ -340,7 +340,7 @@ bool SceneParser::parseGlobalData(const TiXmlElement* scenefile)
             return false;
          }
       }
-      else 
+      else
       {
          printf("Invalid global data type %s\n", elem.c_str());
          return false;
@@ -360,29 +360,29 @@ bool SceneParser::parseGlobalData(const TiXmlElement* scenefile)
  *
  */
 
-bool SceneParser::parseLightData(const TiXmlElement* scenefile) 
+bool SceneParser::parseLightData(const TiXmlElement* scenefile)
 {
    const TiXmlElement* lightelem = scenefile->FirstChildElement();
 
-   if (!lightelem) 
+   if (!lightelem)
    {
       printf("Invalid light data - no data provided.\n");
       return false;
    }
 
    SceneLightData* light = new SceneLightData();
-   m_lights.push_back(light);    
+   m_lights.push_back(light);
    memset(light, 0, sizeof(SceneLightData));
    light->pos = glm::vec3(3, 3, 3);
    light->dir = glm::vec3(0, 0, 0);
    light->color.r = light->color.g = light->color.b = 1.0f;
    light->function = glm::vec3(1, 0, 0);
 
-   while(lightelem) 
+   while(lightelem)
    {
       const string& elem = lightelem->ValueStr();
 
-      if (!elem.compare("id")) 
+      if (!elem.compare("id"))
       {
          const TiXmlAttribute* attr = lightelem->FirstAttribute();
          if (!attr)
@@ -390,7 +390,7 @@ bool SceneParser::parseLightData(const TiXmlElement* scenefile)
             printf("Invalid light id.\n");
             return false;
          }
-         light->id  = attr->IntValue();        
+         light->id  = attr->IntValue();
       }
       else if (!elem.compare("type"))
       {
@@ -448,7 +448,7 @@ bool SceneParser::parseLightData(const TiXmlElement* scenefile)
             printf("Invalid light position.\n");
             return false;
         }
-    }    
+    }
     else if (!elem.compare("direction"))
     {
         if (light->type == LIGHT_POINT)
@@ -615,7 +615,7 @@ bool SceneParser::parseCameraData(const TiXmlElement* scenefile)
          {
             printf("Invalid camera field of view.\n");
             return false;
-         }    
+         }
       }
       else if (!elem.compare("aspectratio"))
       {
@@ -624,7 +624,7 @@ bool SceneParser::parseCameraData(const TiXmlElement* scenefile)
             printf("Invalid camera aspect ratio.\n");
             return false;
          }
-      }        
+      }
       else if (!elem.compare("aperture"))
       {
          if (!parseFloat(cam_element, m_cameraData.aperture))
@@ -632,7 +632,7 @@ bool SceneParser::parseCameraData(const TiXmlElement* scenefile)
             printf("Invalid camera aperture.\n");
             return false;
          }
-      }        
+      }
       else if (!elem.compare("focallength"))
       {
          if (!parseFloat(cam_element, m_cameraData.focalLength))
@@ -640,8 +640,8 @@ bool SceneParser::parseCameraData(const TiXmlElement* scenefile)
             printf("Invalid camera focal length.\n");
             return false;
          }
-      }        
-      else 
+      }
+      else
       {
          printf("Invalid camera element %s.\n", elem.c_str());
          return false;
@@ -729,7 +729,7 @@ bool SceneParser::parseObjectData(const TiXmlElement* scenefile){
 /**
  *
  * This method expects a transblock as its element, so we need
- * to iterate over all of its child elements, which could be 
+ * to iterate over all of its child elements, which could be
  * translate, rotate, etc etc elements.  The information will be stripped
  * from the element, and then we'll tackle the next one. If it's an object
  * in here, it's either a master reference, a subtree, or a primitive.
@@ -799,7 +799,7 @@ bool SceneParser::parseTransBlock(const TiXmlElement* transblock, SceneNode* nod
          /* Convert to radians */
          t->angle = angle * PI / 180.f;
 
-         node->transformations.push_back(t);   
+         node->transformations.push_back(t);
       }
       else if (!elem.compare("scale"))
       {
@@ -826,7 +826,7 @@ bool SceneParser::parseTransBlock(const TiXmlElement* transblock, SceneNode* nod
             printf("Could not parse matrix.\n");
             return false;
          }
-         
+
          t->matrix = glm::make_mat4(matrix);  //need to be careful about the ordering...
          node->transformations.push_back(t);
       }
@@ -844,7 +844,7 @@ bool SceneParser::parseTransBlock(const TiXmlElement* transblock, SceneNode* nod
             }
             if (!m_objects[attr->ValueStr()])
             {
-               printf("Invalid master object reference %s\n", 
+               printf("Invalid master object reference %s\n",
                       attr->ValueStr().c_str());
                return false;
             }
@@ -876,7 +876,7 @@ bool SceneParser::parseTransBlock(const TiXmlElement* transblock, SceneNode* nod
             return false;
          }
       }
-      else 
+      else
       {
          printf("Invalid transblock element type %s\n", elem.c_str());
          return false;
@@ -888,7 +888,7 @@ bool SceneParser::parseTransBlock(const TiXmlElement* transblock, SceneNode* nod
 }
 
 /**
- * Parse primitive data 
+ * Parse primitive data
  */
 bool SceneParser::parsePrimitive(const TiXmlElement* prim, SceneNode* node)
 {
@@ -925,7 +925,7 @@ bool SceneParser::parsePrimitive(const TiXmlElement* prim, SceneNode* node)
    else if (!primType.compare("cone"))
 	   primitive->type = SHAPE_CONE;
    else if (!primType.compare("special1"))
-	   primitive->type = SHAPE_BOWL;
+	   primitive->type = SHAPE_SPECIAL1;
    else if (!primType.compare("special2"))
 	   primitive->type = SHAPE_SPECIAL2;
    else if (!primType.compare("special3"))
@@ -1035,7 +1035,7 @@ bool SceneParser::parsePrimitive(const TiXmlElement* prim, SceneNode* node)
             return false;
          }
       }
-      else 
+      else
       {
          printf("Invalid primitive data %s\n", elem.c_str());
          return false;
@@ -1045,4 +1045,3 @@ bool SceneParser::parsePrimitive(const TiXmlElement* prim, SceneNode* node)
 
    return true;
 }
-

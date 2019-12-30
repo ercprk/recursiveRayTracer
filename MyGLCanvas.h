@@ -16,7 +16,7 @@
 
 #include "Camera.h"
 #include "RayTracer.h"
-#include "FlatSceneTree.h"
+//#include "FlatSceneTree.h"
 #include "scene/SceneParser.h"
 
 #include "Shape.h"
