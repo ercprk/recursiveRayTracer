@@ -1,9 +1,7 @@
-/*!
-   @file   SceneParser.h
-   @author Eric Tamura (October 2006)
-   @author Nong Li (August 2007)
-   @author Remco Chang (December 2013)
-*/
+// @file   SceneParser.h
+// @author Eric Tamura (October 2006)
+// @author Nong Li (August 2007)
+// @author Remco Chang (December 2013)
 
 #ifndef SCENEPARSER_H
 #define SCENEPARSER_H
@@ -15,11 +13,10 @@
 
 class TiXmlElement;
 
-
 //! This class parses the scene graph specified by the CS123 Xml file format.
 class SceneParser
 {
-   public:
+    public:
       //! Create a parser, passing it the scene file.
       SceneParser(const std::string& filename);
       //! Clean up all data for the scene
@@ -53,7 +50,7 @@ class SceneParser
       bool parseObjectData(const TiXmlElement* scenefile);
       bool parseTransBlock(const TiXmlElement* transblock, SceneNode* node);
       bool parsePrimitive(const TiXmlElement* prim, SceneNode* node);
-      
+
       std::string file_name;
       mutable std::map<std::string, SceneNode*> m_objects;
       SceneCameraData m_cameraData;
@@ -63,4 +60,3 @@ class SceneParser
 };
 
 #endif
-
