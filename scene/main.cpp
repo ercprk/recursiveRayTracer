@@ -94,31 +94,28 @@ private:
 	}
 
 	// Someone changed one of the sliders
-	static void toggleCB(Fl_Widget* w, void* userdata) {
+	static void toggleCB(Fl_Widget* w, void* userdata)
+	{
 		int value = ((Fl_Button*)w)->value();
 		printf("value: %d\n", value);
 		*((int*)userdata) = value;
 	}
 
-	// static void segmentsCB(Fl_Widget* w, void* userdata) {
-	// 	int value = ((Fl_Slider*)w)->value();
-	// 	printf("value: %d\n", value);
-	// 	*((int*)userdata) = value;
-	// 	win->canvas->setSegments();
-	// }
-
-	static void sliderFloatCB(Fl_Widget* w, void* userdata) {
+	static void sliderFloatCB(Fl_Widget* w, void* userdata)
+	{
 		float value = ((Fl_Slider*)w)->value();
 		printf("value: %f\n", value);
 		*((float*)userdata) = value;
 	}
 
-	static void renderCB(Fl_Widget*w, void*data) {
+	static void renderCB(Fl_Widget*w, void*data)
+	{
 		cout << "render scene" << endl;
 		win->canvas->renderScene();
 	}
 
-	static void loadFileCB(Fl_Widget*w, void*data) {
+	static void loadFileCB(Fl_Widget*w, void*data)
+	{
 		Fl_File_Chooser G_chooser("", "", Fl_File_Chooser::MULTI, "");
 		G_chooser.show();
 		// Block until user picks something.
@@ -143,7 +140,7 @@ private:
 
 	static void recurseDepthCB(Fl_Widget* w, void* userdata)
 	{
-	    win->canvas->recurseDepth = win->recurseDepthSlider->value();
+		win->canvas->recurseDepth = win->recurseDepthSlider->value();
 	}
 
 	static void cameraRotateCB(Fl_Widget* w, void* userdata) {
@@ -218,53 +215,23 @@ MyAppWindow::MyAppWindow(int W, int H, const char*L) : Fl_Window(W, H, L) {
 
 	buttonsPack->end();
 
-	// Fl_Pack* radioPack = new Fl_Pack(w() - 100, 30, 100, h(), "Shape");
-	// radioPack->box(FL_DOWN_FRAME);
-	// radioPack->labelfont(1);
-	// radioPack->type(Fl_Pack::VERTICAL);
-	// radioPack->spacing(0);
-	// radioPack->begin();
-	// 	//slider for controlling number of segments in X
-	// 	Fl_Box *segmentsXTextbox = new Fl_Box(0, 0, pack->w() - 20, 20, "SegmentsX");
-	// 	segmentsXSlider = new Fl_Value_Slider(0, 0, pack->w() - 20, 20, "");
-	// 	segmentsXSlider->align(FL_ALIGN_TOP);
-	// 	segmentsXSlider->type(FL_HOR_SLIDER);
-	// 	segmentsXSlider->bounds(3, 60);
-	// 	segmentsXSlider->step(1);
-	// 	segmentsXSlider->value(canvas->segmentsX);
-	// 	segmentsXSlider->callback(segmentsCB, (void*)(&(canvas->segmentsX)));
-	//
-	//
-	// 	//slider for controlling number of segments in Y
-	// 	Fl_Box *segmentsYTextbox = new Fl_Box(0, 0, pack->w() - 20, 20, "SegmentsY");
-	// 	segmentsYSlider = new Fl_Value_Slider(0, 0, pack->w() - 20, 20, "");
-	// 	segmentsYSlider->align(FL_ALIGN_TOP);
-	// 	segmentsYSlider->type(FL_HOR_SLIDER);
-	// 	segmentsYSlider->bounds(3, 60);
-	// 	segmentsYSlider->step(1);
-	// 	segmentsYSlider->value(canvas->segmentsY);
-	// 	segmentsYSlider->callback(segmentsCB, (void*)(&(canvas->segmentsY)));
-	//
-	// 	radioPack->end();
+		Fl_Pack* rayPack = new Fl_Pack(w() - 100, 30, 100, h(), "Ray");
+		rayPack->box(FL_DOWN_FRAME);
+		rayPack->labelfont(1);
+		rayPack->type(Fl_Pack::VERTICAL);
+		rayPack->spacing(0);
+		rayPack->begin();
 
-    Fl_Pack* rayPack = new Fl_Pack(w() - 100, 30, 100, h(), "Ray");
-    rayPack->box(FL_DOWN_FRAME);
-    rayPack->labelfont(1);
-    rayPack->type(Fl_Pack::VERTICAL);
-    rayPack->spacing(0);
-    rayPack->begin();
+		Fl_Box *recurseDepthTextBox = new Fl_Box(0, 0, pack->w() - 20, 20, "Recurse Depth");
+		recurseDepthSlider = new Fl_Value_Slider(0, 0, pack->w() - 20, 20, "");
+		recurseDepthSlider->align(FL_ALIGN_TOP);
+		recurseDepthSlider->type(FL_HOR_SLIDER);
+		recurseDepthSlider->bounds(0, 5);
+		recurseDepthSlider->step(1);
+		recurseDepthSlider->value(canvas->recurseDepth);
+		recurseDepthSlider->callback(recurseDepthCB);
 
-    Fl_Box *recurseDepthTextBox = new Fl_Box(0, 0, pack->w() - 20, 20, "Recurse Depth");
-    recurseDepthSlider = new Fl_Value_Slider(0, 0, pack->w() - 20, 20, "");
-    recurseDepthSlider->align(FL_ALIGN_TOP);
-    recurseDepthSlider->type(FL_HOR_SLIDER);
-    recurseDepthSlider->bounds(0, 5);
-    recurseDepthSlider->step(1);
-    recurseDepthSlider->value(canvas->recurseDepth);
-    recurseDepthSlider->callback(recurseDepthCB);
-
-    rayPack->end();
-
+		rayPack->end();
 
 		Fl_Pack* rotPack = new Fl_Pack(w() - 100, 30, 100, h(), "Camera Rotate");
 		rotPack->box(FL_DOWN_FRAME);
@@ -304,7 +271,6 @@ MyAppWindow::MyAppWindow(int W, int H, const char*L) : Fl_Window(W, H, L) {
 
 
 	pack->end();
-
 
 	Fl_Pack* packCol2 = new Fl_Pack(w() - 155, 30, 150, h(), "");
 	packCol2->box(FL_DOWN_FRAME);
